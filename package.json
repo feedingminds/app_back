@@ -1,29 +1,29 @@
 {
-  "name": "user-app",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "app_back",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000b\u0000a\u0000c\u0000k\u0000e\u0000n\u0000d\u0000-\u0000a\u0000p\u0000p\u0000",
+  "main": "index.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feedingminds/app_back.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/feedingminds/app_back/issues"
+  },
+  "homepage": "https://github.com/feedingminds/app_back#readme",
   "dependencies": {
-    "@chakra-ui/react": "^2.2.4",
-    "@emotion/react": "^11.9.3",
-    "@emotion/styled": "^11.9.3",
-    "@reduxjs/toolkit": "^1.8.3",
-    "framer-motion": "^6.5.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-hook-form": "^7.33.1",
-    "react-redux": "^8.0.2",
-    "react-router-dom": "^6.3.0"
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "nodemon": "^2.0.20"
   },
   "devDependencies": {
-    "@types/react": "^18.0.15",
-    "@types/react-dom": "^18.0.6",
-    "@vitejs/plugin-react": "^2.0.0",
-    "vite": "^3.0.0"
+    "eslint": "^8.23.1"
   }
 }
