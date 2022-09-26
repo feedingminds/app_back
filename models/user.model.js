@@ -15,6 +15,15 @@ const UserSchema = Schema({
   },
   photoURL: {
     type: String,
+    default: '',
+  },
+  profession: {
+    type: String,
+    default: '',
+  },
+  bio: {
+    type: String,
+    default: '',
   },
   role: {
     type: String,
@@ -25,8 +34,11 @@ const UserSchema = Schema({
 })
 
 UserSchema.methods.toJSON = function () {
-  const { __v, password, ...user } = this.toObject()
-  return user
+  const { __v, password, _id, ...user } = this.toObject()
+  return {
+    id: _id,
+    ...user,
+  }
 }
 
 module.exports = model('User', UserSchema)
