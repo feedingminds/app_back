@@ -1,31 +1,50 @@
 const express = require('express')
-const User = require('../models/user.model')
+const { check } = require('express-validator')
+const {
+  getUsers,
+  postUsers,
+  patchUsers,
+  getUser,
+} = require('../controllers/user.controller')
+const { existsUserById, existsEmail } = require('../helpers/db-validators')
+const { validateFields } = require('../middlewares')
 
 const router = express.Router()
 
-router.get('/', async (req, res) => {
-  const users = await User.find()
-  res.json(users)
-})
+router.get('/', getUsers)
 
-router.get('/:id', async (req, res) => {
-  const { id } = req.params
-  const user = await User.findById(id)
-  res.json(user)
-})
+router.get(
+  '/:id',
+  [
+    check('id', "It's not ID valid").isMongoId(),
+    check('id').custom(existsUserById),
+    validateFields,
+  ],
+  getUser
+)
 
-router.post('/', async (req, res) => {
-  const body = req.body
-  const user = await User.create(body)
-  res.status(201).json(user)
-})
+router.patch(
+  '/:id',
+  [
+    check('id', "It's not ID valid").isMongoId(),
+    check('id').custom(existsUserById),
+    validateFields,
+  ],
+  patchUsers
+)
 
-router.patch('/:id', async (req, res) => {
-  res.json({ message: 'PATCH' })
-})
-
-router.delete('/:id', async (req, res) => {
-  res.status(201).json({ message: 'DELETE' })
-})
+router.post(
+  '/',
+  [
+    check('name', 'Name is required'),
+    check('password', 'Password must have more than six letters').isLength({
+      min: 6,
+    }),
+    check('email', 'Email is not valid').isEmail(),
+    check('email').custom(existsEmail),
+    validateFields,
+  ],
+  postUsers
+)
 
 module.exports = router

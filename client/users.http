@@ -1,2 +1,23 @@
+@userId= 633123bbc4840ae0bb66a3eb
+
 ### GET USERS
 GET http://localhost:4001/api/v1/users
+
+### CREATE USER
+POST http://localhost:4001/api/v1/users HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Juan Gonzales",
+    "password": "123456",
+    "email": "juan.gonzales@gmail.com",
+    "role": "MENTOR_ROLE"
+}
+
+### UPDATE USER
+PATCH http://localhost:4001/api/v1/users/{{userId}} HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Leonardo Valeriano Macuri"
+}
