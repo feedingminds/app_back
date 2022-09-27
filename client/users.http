@@ -8,9 +8,9 @@ POST http://localhost:4001/api/v1/users HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Juan Gonzales",
+    "name": "Abel Valeriano",
     "password": "123456",
-    "email": "juan.gonzales@gmail.com",
+    "email": "abel@gmail.com",
     "role": "MENTOR_ROLE"
 }
 
@@ -20,4 +20,13 @@ content-type: application/json
 
 {
     "name": "Leonardo Valeriano Macuri"
+}
+
+### LOGIN USER
+POST http://localhost:4001/api/v1/auth/login HTTP/1.1
+content-type: application/json
+
+{
+    "email": "abel@gmail.com",
+    "password": "123456"
 }
