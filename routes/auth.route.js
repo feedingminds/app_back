@@ -1,6 +1,7 @@
 const express = require('express')
 const { check } = require('express-validator')
-const { login } = require('../controllers/auth.controller')
+const { login, register } = require('../controllers/auth.controller')
+const { existsEmail } = require('../helpers/db-validators')
 
 const { validateFields } = require('../middlewares')
 
@@ -14,6 +15,19 @@ router.post(
     validateFields,
   ],
   login
+)
+router.post(
+  '/register',
+  [
+    check('name', 'Name is required'),
+    check('password', 'Password must have more than six letters').isLength({
+      min: 6,
+    }),
+    check('email', 'Email is not valid').isEmail(),
+    check('email').custom(existsEmail),
+    validateFields,
+  ],
+  register
 )
 
 module.exports = router

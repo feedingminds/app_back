@@ -27,6 +27,25 @@ const login = async (req, res = response) => {
   }
 }
 
+const register = async (req, res = response) => {
+  const { name, email, password, role } = req.body
+
+  const user = new User({
+    name,
+    email,
+    password,
+    role,
+  })
+
+  const salt = bcryptjs.genSaltSync()
+  user.password = bcryptjs.hashSync(password, salt)
+
+  await user.save()
+
+  res.status(201).json(user)
+}
+
 module.exports = {
   login,
+  register,
 }
