@@ -1,7 +1,7 @@
-@userId= 633123bbc4840ae0bb66a3eb
+@userId= 63422ad4af60bddcf95570f1
 
 ### GET USERS
-GET http://localhost:4001/api/v1/users
+GET http://localhost:4001/api/v1/users?role=MENTOR_ROLE
 
 ### CREATE USER
 POST http://localhost:4001/api/v1/users HTTP/1.1
@@ -10,7 +10,7 @@ content-type: application/json
 {
     "name": "Abel Valeriano",
     "password": "123456",
-    "email": "abel@gmail.com",
+    "email": "abel@gmail.abcD",
     "role": "MENTOR_ROLE"
 }
 

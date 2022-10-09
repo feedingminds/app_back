@@ -14,7 +14,9 @@ const getUsers = async (req = request, res = response) => {
 
   const [total, users] = await Promise.all([
     User.countDocuments(query),
-    User.find(query).skip(Number(from)).limit(Number(limit)),
+    User.find(query),
+    //* GET USERS WITH PAGINATED
+    // User.find(query).skip(Number(from)).limit(Number(limit)),
   ])
   res.json({
     users,
@@ -30,14 +32,26 @@ const getUser = async (req, res) => {
 
 const postUsers = async (req, res = response) => {
   const { name, email, password, role } = req.body
-
+  let rating
+  if (role === 'MENTOR_ROLE') {
+    rating = {
+      1: 0,
+      2: 0,
+      3: 0,
+      4: 0,
+      5: 0,
+      average: 0,
+    }
+  }
   const user = new User({
     name,
     email,
     password,
     role,
+    rating,
   })
 
+  console.log({ user })
   const salt = bcryptjs.genSaltSync()
   user.password = bcryptjs.hashSync(password, salt)
 
