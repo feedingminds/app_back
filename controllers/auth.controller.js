@@ -29,7 +29,6 @@ const login = async (req, res = response) => {
 
 const register = async (req, res = response) => {
   const { name, email, password, role } = req.body
-
   const user = new User({
     name,
     email,
