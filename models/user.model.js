@@ -5,6 +5,10 @@ const CommentSchema = new Schema({
     type: String,
     default: '',
   },
+  rating: {
+    type: Number,
+    default: 0,
+  },
   author: {
     type: String,
     default: '',
