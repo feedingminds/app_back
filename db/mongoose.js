@@ -3,7 +3,7 @@ require('dotenv').config()
 
 const connect = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI)
+    await mongoose.connect(process.env.MONGO_URI, { ignoreUndefined: true })
     console.log('Database online.')
   } catch (error) {
     console.log(error)

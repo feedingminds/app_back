@@ -1,4 +1,4 @@
-@userId= 634259d47262baf808e9ab78
+@userId= 6342639ec5ead80e191238c6
 
 ### GET USERS
 GET http://localhost:4001/api/v1/users?role=MENTOR_ROLE
@@ -8,9 +8,6 @@ POST http://localhost:4001/api/v1/users HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Abel Valeriano",
-    "password": "123456",
-    "email": "abel@hotmail.cccsd",
     "role": "MENTOR_ROLE"
 }
 
@@ -19,8 +16,9 @@ PATCH http://localhost:4001/api/v1/users/{{userId}} HTTP/1.1
 content-type: application/json
 
 {
-
+    "role": "MENTOR_ROLE"
 }
+
 
 ### LOGIN USER
 POST http://localhost:4001/api/v1/auth/login HTTP/1.1

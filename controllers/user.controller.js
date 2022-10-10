@@ -7,11 +7,22 @@ const getUsers = async (req = request, res = response) => {
     limit = 5,
     from = 0,
     role = ['MENTOR_ROLE', 'STUDENT_ROLE'],
+    career,
+    university,
+    job,
+    experience,
+    nationality,
+    genre,
   } = req.query
   const query = {
     role,
+    career,
+    university,
+    job,
+    experience,
+    nationality,
+    genre,
   }
-
   const [total, users] = await Promise.all([
     User.countDocuments(query),
     User.find(query),
