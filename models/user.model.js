@@ -99,6 +99,22 @@ const UserSchema = new Schema(
       type: Number,
       default: 0,
     },
+    schedule: {
+      hours: [
+        {
+          type: String,
+        },
+      ],
+      days: [
+        {
+          type: Number,
+        },
+      ],
+      duration: {
+        type: String,
+        default: '',
+      },
+    },
   },
   {
     toJSON: { virtuals: true },

@@ -8,7 +8,10 @@ POST http://localhost:4001/api/v1/users HTTP/1.1
 content-type: application/json
 
 {
-    "role": "MENTOR_ROLE"
+    "name": "Leonardo Valeriano Macuri 1234",
+    "email": "leonardo.valeriano.000@gmail.com",
+    "role": "MENTOR_ROLE",
+    "password": "1234567890"
 }
 
 ### UPDATE USER
