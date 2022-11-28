@@ -3,9 +3,7 @@ POST  http://localhost:4001/api/v1/mailer/ HTTP/1.1
 content-type: application/json
 
 {
-    "from": "correo@gmail.com",
     "to" : "correo@gmail.com",
-    "subject" : "",
-    "mailBody": "123456",
-    "date" : "22/11/2022"
+    "subject" : "prueba",
+    "message": "123456",
 }
