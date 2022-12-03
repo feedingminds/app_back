@@ -16,6 +16,15 @@ const CommentSchema = new Schema({
   },
 })
 
+const ReservedTimesSchema = new Schema({
+  timestamp: {
+    type: Number,
+  },
+  hour: {
+    type: String,
+  },
+})
+
 const UserSchema = new Schema(
   {
     name: {
@@ -115,6 +124,11 @@ const UserSchema = new Schema(
         default: '',
       },
     },
+    meet: {
+      type: String,
+      default: '',
+    },
+    reservedTimes: [ReservedTimesSchema],
   },
   {
     toJSON: { virtuals: true },
