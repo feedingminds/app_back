@@ -10,6 +10,7 @@ function routes(app) {
   router.use('/users', usersRouter)
   router.use('/auth', authRouter)
   router.use('/mailer', mailerRouter)
+  
   app.use('/api/v1', router)
 }
 

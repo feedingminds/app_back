@@ -23,7 +23,7 @@ const cors = require('cors')
     // console.clear()
     console.log(
       `Express server running in port ${port}, to stop server press Ctrl + C.
-Local: http://localhost:${port}/`
+  Local: http://localhost:${port}/`
     )
   })
 })()

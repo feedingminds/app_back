@@ -1,9 +1,0 @@
-### SEND MAIL
-POST  http://localhost:4001/api/v1/mailer/ HTTP/1.1
-content-type: application/json
-
-{
-    "to" : "correo@gmail.com",
-    "subject" : "prueba",
-    "message": "123456",
-}

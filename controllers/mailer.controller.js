@@ -1,45 +1,44 @@
 const { request, response } = require('express')
 const nodemailer = require('nodemailer');
 
-const sendMail = async (req = request, res = response) => {
-
+const postMailer = async (req = request, res = response) => {
     const { to, subject, message } = req.body
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            // Cambiar valores a correo de prueba
-          user: '--@gmail.com',
-          pass: '---'
-        }
-      });    
-      
-      var mailOptions = {
-        from: 'feedingminds.pe@gmail.com',
+
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.ethereal.email',
+      port: 587,
+      auth: {
+          user: 'wilfred6@ethereal.email',
+          pass: 'BVYzPxTjjPCz8JxbzE'
+      }
+    });
+
+    let info = await transporter.sendMail({
+        from: '"Wilfred Hoppe" <wilfred6@ethereal.email>', // sender address,
         to: to,
         subject: subject,
-        text: message
-      };
+        // text: 'Hello World'
+        html: message
+    })
 
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-            res.status(201).json(
-                {
-                    "result":false,
-                    "error":error
-                }
-            )
-        } else {
-            res.status(200).json(
-                {
-                    "result":true
-                }
-            )
-        }
-      });
-    
-    
+    console.log('Message sent: %s', info.messageId);
+    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+  
+    transporter.close(); 
+
+    res.json({
+      messageId: info.messageId,
+      previewUrl:  nodemailer.getTestMessageUrl(info)
+    })
+  }
+
+  const GetMailer = async (req = request, res = response) => {
+    res.json({
+      message: 'Hello World!',
+    })
   }
 
   module.exports = {
-    sendMail,
+    postMailer,
+    GetMailer,
   }
