@@ -3,9 +3,9 @@ POST http://localhost:4001/api/v1/mailer/ HTTP/1.1
 content-type: application/json
 
 {
-    "to" : "correo@gmail.com",
-    "subject" : "prueba",
-    "message": "123456"
+    "to" : "alfredo146.al@gmail.com",
+    "subject" : "Saludo de prueba",
+    "message": "<!DOCTYPE html><html><head><title>Saludo por correo electrónico</title><style>body {font-family: Arial, sans-serif;}h1 {color: blue;}</style></head><body><h1>Hola!</h1><p>Espero que estés teniendo un buen día. Quería enviarte un saludo y espero que todo vaya bien contigo.</p><p>Un abrazo,</p><p>[Tu nombre]</p></body></html>"
 }
 
 ### GET MAIL

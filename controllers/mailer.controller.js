@@ -1,28 +1,30 @@
 const { request, response } = require('express')
 const nodemailer = require('nodemailer');
+require('dotenv').config()
 
 const postMailer = async (req = request, res = response) => {
     const { to, subject, message } = req.body
 
     const transporter = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
-      port: 587,
+      host: process.env.MAIL_HOST,
+      port: process.env.MAIL_PORT,
+      secure: process.env.MAIL_SECURE,
       auth: {
-          user: 'wilfred6@ethereal.email',
-          pass: 'BVYzPxTjjPCz8JxbzE'
+          user: process.env.MAIL_USERNAME,
+          pass: process.env.MAIL_PASSWORD
+          
       }
     });
 
     let info = await transporter.sendMail({
-        from: '"Wilfred Hoppe" <wilfred6@ethereal.email>', // sender address,
+        from: process.env.MAIL_FROM_NAME + process.env.MAIL_FROM_ADDRESS, // sender address,
         to: to,
         subject: subject,
-        // text: 'Hello World'
         html: message
     })
 
     console.log('Message sent: %s', info.messageId);
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+    // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
   
     transporter.close(); 
 
