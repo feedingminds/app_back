@@ -1,6 +1,20 @@
 version: '3.8'
 
 services:
+  api:
+    container_name: feddingminds_api
+    restart: always
+    build: .
+    ports:
+      - '4001:4001'
+    links:
+      - mongo
+    volumes:
+      - .:/usr/src/app
+    env_file:
+      - .env
+    environment:
+      - MONGO_URI=mongodb://mongo/feedingmindsdb
   mongo:
     container_name: mongo_container
     image: mongo:latest

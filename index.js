@@ -5,8 +5,7 @@ const cors = require('cors')
 
 ;(async () => {
   const app = express()
-  const port = 4001
-
+  const port = process.env.PORT
   app.use(express.json())
   app.use(cors())
   await connect()
