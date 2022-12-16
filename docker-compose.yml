@@ -11,8 +11,6 @@ services:
       - mongo
     volumes:
       - .:/usr/src/app
-    env_file:
-      - .env
     environment:
       - MONGO_URI=mongodb://mongo/feedingmindsdb
       - PORT=4001
