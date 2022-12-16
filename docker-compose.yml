@@ -17,7 +17,7 @@ services:
       - MAIL_HOST=smtp.gmail.com
       - MAIL_PORT=465
       - MAIL_USERNAME=feedingminds.pe@gmail.com
-      - MAIL_PASSWORD=APPLICATION_PASSWORD
+      - MAIL_PASSWORD=qfjmuxsakeyszlhq
       - MAIL_SECURE=true
       - MAIL_FROM_ADDRESS=feedingminds.pe@gmail.com
       - MAIL_FROM_NAME="Feeding Minds"
