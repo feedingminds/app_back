@@ -15,6 +15,14 @@ services:
       - .env
     environment:
       - MONGO_URI=mongodb://mongo/feedingmindsdb
+      - PORT=4001
+      - MAIL_HOST=smtp.gmail.com
+      - MAIL_PORT=465
+      - MAIL_USERNAME=feedingminds.pe@gmail.com
+      - MAIL_PASSWORD=APPLICATION_PASSWORD
+      - MAIL_SECURE=true
+      - MAIL_FROM_ADDRESS=feedingminds.pe@gmail.com
+      - MAIL_FROM_NAME="Feeding Minds"
   mongo:
     container_name: mongo_container
     image: mongo:latest
