@@ -3,9 +3,9 @@ POST http://localhost:4001/api/v1/mailer/ HTTP/1.1
 content-type: application/json
 
 {
-    "to" : "leonardo.valeriano.public@gmail.com",
+    "to" : "jazmin.huillcagutierrez@gmail.com",
     "subject" : "Tienes una nueva reunión agendada.",
-    "name": "Leonardo Valeriano",
+    "name": "jazmin",
     "duration": "30min", 
     "date": "17/12/2022" , 
     "hour": "3:00PM",
