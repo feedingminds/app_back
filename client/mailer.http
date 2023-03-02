@@ -3,13 +3,14 @@ POST http://localhost:4001/api/v1/mailer/ HTTP/1.1
 content-type: application/json
 
 {
-    "to" : "jazmin.huillcagutierrez@gmail.com",
+    "to" : "leonardo.valeriano.public@gmail.com",
     "subject" : "Tienes una nueva reunión agendada.",
-    "name": "jazmin",
+    "name": "Nombre del mentor",
     "duration": "30min", 
     "date": "17/12/2022" , 
     "hour": "3:00PM",
-    "meet": "https://linkedin.com" 
+    "meet": "https://linkedin.com",
+    "template": "student"
 }
 
 ### GET MAIL

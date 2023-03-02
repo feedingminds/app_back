@@ -7,7 +7,7 @@ const options = {
   viewEngine: {
     extname: '.handlebars', // handlebars extension
     layoutsDir: 'views/email/', // location of handlebars templates
-    defaultLayout: 'template', // name of main template
+    defaultLayout: 'main', // name of main template
     partialsDir: 'views/email/', // location of your subtemplates aka. header, footer etc
   },
   viewPath: 'views/email',
@@ -15,7 +15,7 @@ const options = {
 }
 
 const postMailer = async (req = request, res = response) => {
-  const { to, subject, name, duration, date, hour, meet } = req.body
+  const { to, subject, name, duration, date, hour, meet, template } = req.body
 
   const transporter = nodemailer.createTransport({
     host: process.env.MAIL_HOST,
@@ -33,7 +33,7 @@ const postMailer = async (req = request, res = response) => {
     from: process.env.MAIL_FROM_NAME + process.env.MAIL_FROM_ADDRESS, // sender address,
     to: to,
     subject: subject,
-    template: 'template',
+    template,
     context: {
       name,
       duration,
