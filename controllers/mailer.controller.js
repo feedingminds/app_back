@@ -1,5 +1,5 @@
 const { request, response } = require('express')
-const { mailer } = require('../config/db/node-mailer')
+const { mailer } = require('../config/mailer/node-mailer')
 const { userById } = require('../services/user.service')
 
 const postMailer = async (req = request, res = response) => {
@@ -15,7 +15,9 @@ const postMailer = async (req = request, res = response) => {
       template: 'student',
     },
     {
-      name: mentor.name,
+      name_student: user.name,
+      name_mentor: mentor.name,
+      linkedin_mentor: mentor.linkedin,
       duration: '30min',
       date,
       hour,
