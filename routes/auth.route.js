@@ -1,7 +1,8 @@
 const express = require('express')
 const { check } = require('express-validator')
-const { login, register } = require('../controllers/auth.controller')
+const { login, register, refreshToken } = require('../controllers/auth.controller')
 const { existsEmail } = require('../helpers/db-validators')
+
 
 const { validateFields } = require('../middlewares')
 
@@ -29,5 +30,11 @@ router.post(
   ],
   register
 )
+
+router.post(
+  "/refresh-token",
+   refreshToken
+)
+
 
 module.exports = router
