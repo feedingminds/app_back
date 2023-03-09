@@ -9,9 +9,11 @@ const {
 const { existsUserById, existsEmail } = require('../helpers/db-validators')
 const { validateFields } = require('../middlewares')
 
+const { validateJWT } = require('../middlewares/validate-jwt')
+
 const router = express.Router()
 
-router.get('/', getUsers)
+router.get('/', validateJWT, getUsers)
 
 router.get(
   '/:id',
@@ -19,6 +21,7 @@ router.get(
     check('id', "It's not ID valid").isMongoId(),
     check('id').custom(existsUserById),
     validateFields,
+    
   ],
   getUser
 )

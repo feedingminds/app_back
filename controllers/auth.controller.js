@@ -1,7 +1,7 @@
 const { response } = require('express')
 const User = require('../models/user.model')
 const bcryptjs = require('bcryptjs')
-const { validateJWT } = require('../middlewares/validate-jwt')
+
 const { generateJWT } = require('../helpers/generateJWT')
 
 const login = async (req, res = response) => {
@@ -30,8 +30,8 @@ const login = async (req, res = response) => {
     res.status(200).json({
       ok: true,
       data: "Welcome!",
-      token,
-      refreshToken,
+      token: token,
+      refreshToken: refreshToken ,
     });
 
 
@@ -76,7 +76,9 @@ const refreshToken= async (req, res = response) => {
     return res.status(400).json({message: err.message})
   }
 
-  const token = generateJWT(user.id, process.env.JWT_KEY)
+  const token = generateJWT(user.id, process.env.JWT_KEY);
+
+  res.json({message:"OK", token})
 
 }
 

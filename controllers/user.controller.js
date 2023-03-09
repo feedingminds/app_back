@@ -2,6 +2,7 @@ const { request, response } = require('express')
 const User = require('../models/user.model')
 const bcryptjs = require('bcryptjs')
 
+
 const getUsers = async (req = request, res = response) => {
   const {
     limit = 5,

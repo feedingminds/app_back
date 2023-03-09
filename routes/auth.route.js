@@ -32,7 +32,7 @@ router.post(
 )
 
 router.post(
-  "/refresh-token",
+  "/refreshToken",
    refreshToken
 )
 
