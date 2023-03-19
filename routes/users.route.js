@@ -13,7 +13,7 @@ const { validateJWT } = require('../middlewares/validate-jwt')
 
 const router = express.Router()
 
-router.get('/', validateJWT, getUsers)
+router.get('/', getUsers)
 
 router.get(
   '/:id',
@@ -33,6 +33,7 @@ router.patch(
     check('id').custom(existsUserById),
     validateFields,
   ],
+  validateJWT,
   patchUsers
 )
 
