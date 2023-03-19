@@ -10,6 +10,8 @@ const {
 const { existsUserById, existsEmail } = require('../helpers/db-validators')
 const { validateFields } = require('../middlewares')
 
+const { validateJWT } = require('../middlewares/validate-jwt')
+
 const router = express.Router()
 
 router.get('/', getUsers)
@@ -20,6 +22,7 @@ router.get(
     check('id', "It's not ID valid").isMongoId(),
     check('id').custom(existsUserById),
     validateFields,
+    
   ],
   getUser
 )
@@ -31,6 +34,7 @@ router.patch(
     check('id').custom(existsUserById),
     validateFields,
   ],
+  validateJWT,
   patchUsers
 )
 

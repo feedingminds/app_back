@@ -1,0 +1,12 @@
+
+#### PATCH 
+PATCH http://localhost:4001/api/v1/users/63ed8256755def744ecc6caa
+x-token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDBhMTU4NzA4ZjRm
+
+{
+      "name": "otro_update",
+      "email": "otro@hotmail.com",
+      "password": "123456",
+      "role": "STUDENT_ROLE"
+}
+

@@ -4,6 +4,7 @@ const bcryptjs = require('bcryptjs')
 const { userById } = require('../services/user.service')
 const { mailer } = require('../config/mailer/node-mailer')
 
+
 const getUsers = async (req = request, res = response) => {
   const {
     limit = 5,
