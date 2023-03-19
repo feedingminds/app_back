@@ -52,6 +52,10 @@ router.post(
   postUsers
 )
 
-router.post('/generate-order', generateOrder)
+router.post('/generate-order',
+  [
+    // validateJWT
+  ]
+, generateOrder)
 
 module.exports = router

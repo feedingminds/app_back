@@ -4,6 +4,10 @@ const bcryptjs = require('bcryptjs')
 const { userById } = require('../services/user.service')
 const { mailer } = require('../config/mailer/node-mailer')
 
+var MercadoPago = require('mercadopago')
+MercadoPago.configurations.setAccessToken(
+  'TEST-2834539979791973-011021-6f64cbc13cb94e23013692fc436ef262-1111590115'
+)
 
 const getUsers = async (req = request, res = response) => {
   const {
@@ -77,15 +81,19 @@ const patchUsers = async (req, res = response) => {
 }
 
 const generateOrder = async (req, res = response) => {
-  console.log('ADD', req.body)
-
   const { mercadopago, mentor_id, reservedTimes, student_id } = req.body
+
+  // const user = req.user;
   // date, hour, meet
 
   try {
+    // Guardar pago en mercadioago
+    const mp = await MercadoPago.payment.save(mercadopago)
+
     const user = await userById(student_id)
     const mentor = await userById(mentor_id)
 
+    //notificaion al estudiante de la compra
     const resp = await mailer(
       {
         to: user.email,
@@ -96,30 +104,33 @@ const generateOrder = async (req, res = response) => {
         name_student: user.name,
         name_mentor: mentor.name,
         linkedin_mentor: mentor.linkedin,
-        duration: '30min',
+        duration: '60min',
         date: '15/03/2023',
-        hour: '3:00PM',
-        meet: 'https://meet.google.com/tfn-kvpr-fba',
+        hour: reservedTimes[reservedTimes.length - 1].hour,
+        meet: `https://meet.google.com/${mentor.meet}`,
+        amount: 100,
       }
     )
+    // notificacion al mentor
+
+    //Actualice la informacion del mentor
+    const options = {
+      returnDocument: 'after',
+    }
+    await User.findByIdAndUpdate(mentor_id, { reservedTimes }, options)
+
     res.status(200).json({
       ...resp,
       ok: true,
-      message: 'Correo enviado',
+      message: 'Pago de forma correcta',
     })
   } catch (error) {
-    console.log('erro', error);
     res.status(500).json({
       ok: false,
-      message: 'algo fallo',
-      error
+      message: 'No se pudo realizar el pago de forma correcta',
+      error,
     })
   }
-
-  res.status(200).json({
-    ok: true,
-    req: req.body,
-  })
 }
 
 module.exports = {

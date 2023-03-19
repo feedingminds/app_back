@@ -11,11 +11,10 @@ const validateJWT = async (req = request, res = response, next) => {
     })
   }
   try {
-    const {uid} = jwt.verify(token, process.env.JWT_KEY)
- 
+    const { uid } = jwt.verify(token, process.env.JWT_KEY)
+
     const user = await User.findById(uid)
 
-  
     if (!user) {
       return res.status(401).json({
         message: "User doesn't exists",
