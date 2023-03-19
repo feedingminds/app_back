@@ -1,6 +1,8 @@
 const { request, response } = require('express')
 const User = require('../models/user.model')
 const bcryptjs = require('bcryptjs')
+const { userById } = require('../services/user.service')
+const { mailer } = require('../config/mailer/node-mailer')
 
 const getUsers = async (req = request, res = response) => {
   const {
@@ -73,9 +75,56 @@ const patchUsers = async (req, res = response) => {
   res.json(user)
 }
 
+const generateOrder = async (req, res = response) => {
+  console.log('ADD', req.body)
+
+  const { mercadopago, mentor_id, reservedTimes, student_id } = req.body
+  // date, hour, meet
+
+  try {
+    const user = await userById(student_id)
+    const mentor = await userById(mentor_id)
+
+    const resp = await mailer(
+      {
+        to: user.email,
+        subject: 'Tienes una nueva reunión agendada.',
+        template: 'student',
+      },
+      {
+        name_student: user.name,
+        name_mentor: mentor.name,
+        linkedin_mentor: mentor.linkedin,
+        duration: '30min',
+        date: '15/03/2023',
+        hour: '3:00PM',
+        meet: 'https://meet.google.com/tfn-kvpr-fba',
+      }
+    )
+    res.status(200).json({
+      ...resp,
+      ok: true,
+      message: 'Correo enviado',
+    })
+  } catch (error) {
+    console.log('erro', error);
+    res.status(500).json({
+      ok: false,
+      message: 'algo fallo',
+      error
+    })
+  }
+
+  res.status(200).json({
+    ok: true,
+    req: req.body,
+  })
+}
+
 module.exports = {
   getUsers,
   postUsers,
   patchUsers,
   getUser,
+  generateOrder,
 }

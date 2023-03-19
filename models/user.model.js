@@ -23,6 +23,9 @@ const ReservedTimesSchema = new Schema({
   hour: {
     type: String,
   },
+  // mentor_id: UserSchema,
+  order_id: String,
+  amount: Number,
 })
 
 const UserSchema = new Schema(
