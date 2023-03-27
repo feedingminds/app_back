@@ -29,7 +29,7 @@ const login = async (req, res = response) => {
 
     res.status(200).json({
       ok: true,
-      data: "Welcome!",
+      data: user,
       token: token,
       refreshToken: refreshToken ,
     });
@@ -57,7 +57,15 @@ const register = async (req, res = response) => {
 
   await user.save()
 
-  res.status(201).json(user)
+  const token = generateJWT(user.id, process.env.JWT_KEY)
+  const refreshToken= generateJWT(user.id, process.env.JWT_KEY_REFRESH)
+
+  res.status(201).json({
+    ok: true,
+    data: user,
+    token: token,
+    refreshToken: refreshToken ,
+  });
 }
 
 const refreshToken= async (req, res = response) => {
