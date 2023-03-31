@@ -112,6 +112,43 @@ const generateOrder = async (req, res = response) => {
       }
     )
     // notificacion al mentor
+  
+    const resp_mentor = await mailer(
+      {
+        to: mentor.email,
+        subject: 'Tienes una nueva reunión agendada.',
+        template: 'mentor2',
+      },
+      {
+        name_student: user.name,
+        name_mentor: mentor.name,
+        linkedin_mentor: mentor.linkedin,
+        duration: '60min',
+        date: '15/03/2023',
+        hour: reservedTimes[reservedTimes.length - 1].hour,
+        meet: `https://meet.google.com/${mentor.meet}`,
+        amount: 100,
+      }
+    )
+
+    //Notificación a FEEDINGMINDS
+    const resp_feeding = await mailer(
+      {
+        to: "feedingminds.pe@gmail.com",
+        subject: 'Se agendó una nueva reunión',
+        template: 'feeding',
+      },
+      {
+        name_student: user.name,
+        name_mentor: mentor.name,
+        linkedin_mentor: mentor.linkedin,
+        duration: '60min',
+        date: '15/03/2023',
+        hour: reservedTimes[reservedTimes.length - 1].hour,
+        meet: `https://meet.google.com/${mentor.meet}`,
+        amount: 100,
+      }
+    )
 
     //Actualice la informacion del mentor
     const options = {

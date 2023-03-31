@@ -13,11 +13,11 @@ const { userById } = require('../services/user.service')
 
 const postMailer = async (req = request, res = response) => {
   const { student_id, mentor_id, date, hour, meet } = req.body
-
+ 
   try {
     const user = await userById(student_id)
     const mentor = await userById(mentor_id)
-
+    
     const resp = await mailer(
       {
         to: user.email,
@@ -31,18 +31,19 @@ const postMailer = async (req = request, res = response) => {
         duration: '30min',
         date,
         hour,
-        meet,
+        meet
       }
     )
-
+    console.log("d")
     res.status(200).json({
       ...resp,
       ok: true,
       message: 'Correo enviado',
     })
   } catch (error) {
+    console.log(error.response)
     res.status(500).json({
-      ok: false,
+      ok: error,
       message: 'algo fallo',
     })
   }
