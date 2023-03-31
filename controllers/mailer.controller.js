@@ -13,7 +13,7 @@ const { userById } = require('../services/user.service')
 
 const postMailer = async (req = request, res = response) => {
   const { student_id, mentor_id, date, hour, meet } = req.body
- 
+  
   try {
     const user = await userById(student_id)
     const mentor = await userById(mentor_id)
