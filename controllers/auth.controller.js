@@ -83,7 +83,8 @@ const refreshToken = async (req, res = response) => {
     const { uid } = jwt.verify(refreshToken, process.env.JWT_KEY_REFRESH)
     user = await User.findById(uid)
   } catch (err) {
-    return res.status(400).json({ message: err.message })
+    //return res.status(400).json({ message: err.message })
+    console.log({ message: err.message })
   }
 
   const token = generateJWT(user.id, process.env.JWT_KEY)
