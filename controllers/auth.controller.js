@@ -58,7 +58,10 @@ const register = async (req, res = response) => {
   await user.save()
 
   const token = generateJWT(user.id, process.env.JWT_KEY)
-  const refreshToken = generateJWT(user.id, process.env.JWT_KEY_REFRESH)
+  const refreshToken = generateRefreshToken(
+    user.id,
+    process.env.JWT_KEY_REFRESH
+  )
 
   res.status(201).json({
     ok: true,
@@ -85,7 +88,7 @@ const refreshToken = async (req, res = response) => {
 
   const token = generateJWT(user.id, process.env.JWT_KEY)
 
-  res.json({ message: 'OK', token })
+  res.json({ ok: true, data: user, token })
 }
 
 module.exports = {
