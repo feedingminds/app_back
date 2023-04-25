@@ -85,7 +85,7 @@ const refreshToken = async (req, res = response) => {
 
   const token = generateJWT(user.id, process.env.JWT_KEY)
 
-  res.json({ message: 'OK', token })
+  res.json({ ok: true, data: user, token })
 }
 
 module.exports = {
