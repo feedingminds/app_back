@@ -72,7 +72,8 @@ const register = async (req, res = response) => {
 }
 
 const refreshToken = async (req, res = response) => {
-  const refreshToken = req.headers.refresh
+  //const refreshToken = req.headers.refresh
+  const refreshToken = req.header('x-token')
 
   if (!refreshToken) {
     res.status(400).json({ message: 'Something goes wrong' })
