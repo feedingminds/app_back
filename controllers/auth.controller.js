@@ -2,7 +2,7 @@ const { response } = require('express')
 const User = require('../models/user.model')
 const bcryptjs = require('bcryptjs')
 
-const { generateJWT } = require('../helpers/generateJWT')
+const { generateJWT, generateRefreshToken } = require('../helpers/generateJWT')
 
 const login = async (req, res = response) => {
   const { email, password } = req.body
@@ -16,25 +16,25 @@ const login = async (req, res = response) => {
 
     const isValidPassword = bcryptjs.compareSync(password, user.password)
     if (!isValidPassword) {
-      
       return res.status(400).json({
         message: "Password isn't correct",
       })
     }
-    
+
     //res.json(user)
 
     const token = generateJWT(user.id, process.env.JWT_KEY)
-    const refreshToken= generateJWT(user.id, process.env.JWT_KEY_REFRESH)
+    const refreshToken = generateRefreshToken(
+      user.id,
+      process.env.JWT_KEY_REFRESH
+    )
 
     res.status(200).json({
       ok: true,
       data: user,
       token: token,
-      refreshToken: refreshToken ,
-    });
-
-
+      refreshToken: refreshToken,
+    })
   } catch (error) {
     console.error(error)
     return res.status(500).json({
@@ -58,36 +58,34 @@ const register = async (req, res = response) => {
   await user.save()
 
   const token = generateJWT(user.id, process.env.JWT_KEY)
-  const refreshToken= generateJWT(user.id, process.env.JWT_KEY_REFRESH)
+  const refreshToken = generateJWT(user.id, process.env.JWT_KEY_REFRESH)
 
   res.status(201).json({
     ok: true,
     data: user,
     token: token,
-    refreshToken: refreshToken ,
-  });
+    refreshToken: refreshToken,
+  })
 }
 
-const refreshToken= async (req, res = response) => {
-  const refreshToken= req.headers.refresh
+const refreshToken = async (req, res = response) => {
+  const refreshToken = req.headers.refresh
 
-  if (!refreshToken){
-    res.status(400).json({message: "Something goes wrong"})
+  if (!refreshToken) {
+    res.status(400).json({ message: 'Something goes wrong' })
   }
 
   let user
   try {
     const { uid } = jwt.verify(refreshToken, process.env.JWT_KEY_REFRESH)
     user = await User.findById(uid)
-    
-  }catch (err) {
-    return res.status(400).json({message: err.message})
+  } catch (err) {
+    return res.status(400).json({ message: err.message })
   }
 
-  const token = generateJWT(user.id, process.env.JWT_KEY);
+  const token = generateJWT(user.id, process.env.JWT_KEY)
 
-  res.json({message:"OK", token})
-
+  res.json({ message: 'OK', token })
 }
 
 module.exports = {
