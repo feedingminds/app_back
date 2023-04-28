@@ -10,7 +10,6 @@ x-token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDBhMTU4NzA4ZjRm
       "role": "STUDENT_ROLE"
 }
 
-
 #### POST 
 POST http://localhost:4001/api/v1/auth/refreshToken
 x-token dyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDBhMTU4NzA4ZjRm

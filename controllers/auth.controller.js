@@ -1,6 +1,7 @@
-const { response } = require('express')
+const { response, request } = require('express')
 const User = require('../models/user.model')
 const bcryptjs = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 const { generateJWT, generateRefreshToken } = require('../helpers/generateJWT')
 
@@ -71,10 +72,10 @@ const register = async (req, res = response) => {
   })
 }
 
-const refreshToken = async (req, res = response) => {
+const refreshToken = async (req = request, res = response) => {
   //const refreshToken = req.headers.refresh
   const refreshToken = req.header('x-token')
-
+  console.log(refreshToken)
   if (!refreshToken) {
     res.status(400).json({ message: 'Something goes wrong' })
   }
@@ -82,7 +83,9 @@ const refreshToken = async (req, res = response) => {
   let user
   try {
     const { uid } = jwt.verify(refreshToken, process.env.JWT_KEY_REFRESH)
+    console.log('llegó uid')
     user = await User.findById(uid)
+    console.log('user:', user)
   } catch (err) {
     //return res.status(400).json({ message: err.message })
     console.log({ message: err.message })
