@@ -4,6 +4,7 @@ const bcryptjs = require('bcryptjs')
 const { userById } = require('../services/user.service')
 const { mailer } = require('../config/mailer/node-mailer')
 
+const { generateJWT, generateRefreshToken } = require('../helpers/generateJWT')
 var MercadoPago = require('mercadopago')
 MercadoPago.configurations.setAccessToken(
   'TEST-2834539979791973-011021-6f64cbc13cb94e23013692fc436ef262-1111590115'
@@ -63,7 +64,18 @@ const postUsers = async (req, res = response) => {
 
   await user.save()
 
-  res.status(201).json(user)
+  const token = generateJWT(user.id, process.env.JWT_KEY)
+  const refreshToken = generateRefreshToken(
+    user.id,
+    process.env.JWT_KEY_REFRESH
+  )
+
+  res.status(201).json({
+    ok: true,
+    data: user,
+    token: token,
+    refreshToken: refreshToken,
+  })
 }
 
 const patchUsers = async (req, res = response) => {
