@@ -83,17 +83,23 @@ const refreshToken = async (req = request, res = response) => {
   let user
   try {
     const { uid } = jwt.verify(refreshToken, process.env.JWT_KEY_REFRESH)
-    console.log('llegó uid')
+
     user = await User.findById(uid)
-    console.log('user:', user)
+    if (!user) {
+      return res.status(401).json({
+        message: "User doesn't exists",
+      })
+    }
+
+    const token = generateJWT(user.id, process.env.JWT_KEY)
+    res.json({ ok: true, data: user, token })
   } catch (err) {
     //return res.status(400).json({ message: err.message })
     console.log({ message: err.message })
+    res.status(401).json({
+      message: 'Token is not valid',
+    })
   }
-
-  const token = generateJWT(user.id, process.env.JWT_KEY)
-
-  res.json({ ok: true, data: user, token })
 }
 
 module.exports = {
