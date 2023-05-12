@@ -23,6 +23,9 @@ const ReservedTimesSchema = new Schema({
   hour: {
     type: String,
   },
+  // mentor_id: UserSchema,
+  order_id: String,
+  amount: Number,
 })
 
 const UserSchema = new Schema(
@@ -129,6 +132,22 @@ const UserSchema = new Schema(
       default: '',
     },
     reservedTimes: [ReservedTimesSchema],
+    status: {
+      type: String,
+      required: true,
+      default: 'PENDIENTE',
+      enum: ['PENDIENTE', 'ACTIVO', 'INACTIVO', 'CANCELADO'],
+    },
+    plans: [
+      {
+        name: {
+          type: String,
+        },
+        price: {
+          type: Number,
+        },
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
@@ -153,4 +172,25 @@ UserSchema.methods.toJSON = function () {
   }
 }
 
-module.exports = model('User', UserSchema)
+UserSchema.post('save', async function (user, next) {
+  if (user.role == 'MENTOR_ROLE') {
+    await User.findOneAndUpdate(
+      { _id: user._id },
+      {
+        plans: [
+          {
+            name: 'Básico 1',
+            price: 50,
+          },
+        ],
+      },
+      { new: true }
+    )
+  }
+
+  next()
+})
+
+const User = model('User', UserSchema)
+
+module.exports = User

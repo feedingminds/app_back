@@ -1,57 +1,52 @@
 const { request, response } = require('express')
-const hbs = require('nodemailer-express-handlebars')
-const nodemailer = require('nodemailer')
-require('dotenv').config()
+const { mailer } = require('../config/mailer/node-mailer')
+const { userById } = require('../services/user.service')
 
-const options = {
-  viewEngine: {
-    extname: '.handlebars', // handlebars extension
-    layoutsDir: 'views/email/', // location of handlebars templates
-    defaultLayout: 'template', // name of main template
-    partialsDir: 'views/email/', // location of your subtemplates aka. header, footer etc
-  },
-  viewPath: 'views/email',
-  extName: '.handlebars',
-}
+// Datos a enviar
+// {
+//   "student_id": "63efa01f56034d704552d19d",
+//   "mentor_id": "63f2ec3956034d704552d31b",
+//   "date": "15/03/2023" ,
+//   "hour": "3:00PM",
+//   "meet": "https://meet.google.com/tfn-kvpr-fba"
+// }
 
 const postMailer = async (req = request, res = response) => {
-  const { to, subject, name, duration, date, hour, meet } = req.body
-
-  const transporter = nodemailer.createTransport({
-    host: process.env.MAIL_HOST,
-    port: process.env.MAIL_PORT,
-    secure: process.env.MAIL_SECURE,
-    auth: {
-      user: process.env.MAIL_USERNAME,
-      pass: process.env.MAIL_PASSWORD,
-    },
-  })
-
-  transporter.use('compile', hbs(options))
-
-  let info = await transporter.sendMail({
-    from: process.env.MAIL_FROM_NAME + process.env.MAIL_FROM_ADDRESS, // sender address,
-    to: to,
-    subject: subject,
-    template: 'template',
-    context: {
-      name,
-      duration,
-      date,
-      hour,
-      meet,
-    },
-  })
-
-  console.log('Message sent: %s', info.messageId)
-  // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-
-  transporter.close()
-
-  res.json({
-    messageId: info.messageId,
-    previewUrl: nodemailer.getTestMessageUrl(info),
-  })
+  const { student_id, mentor_id, date, hour, meet } = req.body
+  
+  try {
+    const user = await userById(student_id)
+    const mentor = await userById(mentor_id)
+    
+    const resp = await mailer(
+      {
+        to: user.email,
+        subject: 'Tienes una nueva reunión agendada.',
+        template: 'student',
+      },
+      {
+        name_student: user.name,
+        name_mentor: mentor.name,
+        linkedin_mentor: mentor.linkedin,
+        duration: '30min',
+        date,
+        hour,
+        meet
+      }
+    )
+    console.log("d")
+    res.status(200).json({
+      ...resp,
+      ok: true,
+      message: 'Correo enviado',
+    })
+  } catch (error) {
+    console.log(error.response)
+    res.status(500).json({
+      ok: error,
+      message: 'algo fallo',
+    })
+  }
 }
 
 const GetMailer = async (req = request, res = response) => {

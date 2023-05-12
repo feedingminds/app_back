@@ -3,7 +3,10 @@ require('dotenv').config()
 
 const connect = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI, { ignoreUndefined: true })
+    await mongoose.connect(
+      `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}/${process.env.MONDO_DB}`,
+      { ignoreUndefined: true }
+    )
     console.log('Database online.')
   } catch (error) {
     console.log(error)

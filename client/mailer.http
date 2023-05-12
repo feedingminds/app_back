@@ -3,14 +3,13 @@ POST http://localhost:4001/api/v1/mailer/ HTTP/1.1
 content-type: application/json
 
 {
-    "to" : "jazmin.huillcagutierrez@gmail.com",
-    "subject" : "Tienes una nueva reunión agendada.",
-    "name": "jazmin",
-    "duration": "30min", 
-    "date": "17/12/2022" , 
+    "student_id": "63efa01f56034d704552d19d",
+    "mentor_id": "63f2ec3956034d704552d31b",
+    "date": "15/03/2023" , 
     "hour": "3:00PM",
-    "meet": "https://linkedin.com" 
+    "meet": "https://meet.google.com/tfn-kvpr-fba"
 }
+
 
 ### GET MAIL
 GET http://localhost:4001/api/v1/mailer/ HTTP/1.1

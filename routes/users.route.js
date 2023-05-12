@@ -5,6 +5,7 @@ const {
   postUsers,
   patchUsers,
   getUser,
+  generateOrder,
 } = require('../controllers/user.controller')
 const { existsUserById, existsEmail } = require('../helpers/db-validators')
 const { validateFields } = require('../middlewares')
@@ -50,5 +51,11 @@ router.post(
   ],
   postUsers
 )
+
+router.post('/generate-order',
+  [
+    // validateJWT
+  ]
+, generateOrder)
 
 module.exports = router
