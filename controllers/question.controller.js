@@ -5,13 +5,48 @@ const { Types } = require('mongoose')
 
 const getQuestions = async (req, res) => {
   // await Question.remove();
-  const questions = await Question.find().populate('answers', ['name'])
+  const questions = await getQuestionChilds(
+   null, null
+  )
+  // const questions = await getChilds('646a3e1619de583be98d6284','646a3e1619de583be98d6282');
 
   res.status(200).json({
     ok: true,
     message: 'success',
     questions,
   })
+}
+
+const getQuestionChilds = async (idQuestion, idAnswer, qtyAnswers) => {
+  let data = []
+
+  if (qtyAnswers == 0) {
+    return data
+  } else {
+    let question = await getChilds(idQuestion, idAnswer)
+    let questionCopy = { ...question }
+    if (questionCopy._doc) {
+      questionCopy = { ...questionCopy._doc, ans: [] }
+      // console.log('as', questionCopy);
+
+      for (let index = 0; index < questionCopy.answers.length; index++) {
+        const element = questionCopy.answers[index]
+        questionCopy.ans[index] = await getQuestionChilds(question.id, element, questionCopy.answers.length)
+        // console.log('hola', question.id);
+      }
+    }
+
+    // console.log('ar', questionCopy)
+    return questionCopy
+  }
+}
+
+const getChilds = async (idQuestion, idAnswer) => {
+  const question = await Question.findOne({
+    parent_answer: idAnswer,
+    parent_question: idQuestion,
+  }).populate('answers', ['name'])
+  return question
 }
 
 const storeQuestion = (req, res) => {
@@ -21,7 +56,7 @@ const storeQuestion = (req, res) => {
     let arrayAnswers = []
     for (let index = 0; index < body.answers.length; index++) {
       const element = body.answers[index]
-    //   console.log('ele', element);
+      //   console.log('ele', element);
       const newAnswer = new Answer({ ...element })
       newAnswer.save()
       arrayAnswers.push(newAnswer._id)
