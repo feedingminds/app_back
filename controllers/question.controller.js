@@ -4,11 +4,7 @@ const Answer = require('../models/answer.model')
 const { Types } = require('mongoose')
 
 const getQuestions = async (req, res) => {
-  // await Question.remove();
-  const questions = await getQuestionChilds(
-   null, null
-  )
-  // const questions = await getChilds('646a3e1619de583be98d6284','646a3e1619de583be98d6282');
+  const questions = await getQuestionChilds(null, null)
 
   res.status(200).json({
     ok: true,
@@ -31,7 +27,11 @@ const getQuestionChilds = async (idQuestion, idAnswer, qtyAnswers) => {
 
       for (let index = 0; index < questionCopy.answers.length; index++) {
         const element = questionCopy.answers[index]
-        questionCopy.ans[index] = await getQuestionChilds(question.id, element, questionCopy.answers.length)
+        questionCopy.ans[index] = await getQuestionChilds(
+          question.id,
+          element,
+          questionCopy.answers.length
+        )
         // console.log('hola', question.id);
       }
     }
