@@ -22,7 +22,6 @@ router.get(
     check('id', "It's not ID valid").isMongoId(),
     check('id').custom(existsUserById),
     validateFields,
-    
   ],
   getUser
 )
@@ -52,10 +51,13 @@ router.post(
   postUsers
 )
 
-router.post('/generate-order',
+router.post(
+  '/generate-order',
   [
     // validateJWT
-  ]
-, generateOrder)
+  ],
+  validateJWT,
+  generateOrder
+)
 
 module.exports = router
