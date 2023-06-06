@@ -14,7 +14,7 @@ const cors = require('cors')
 
   app.get('/', (req, res) => {
     res.json({
-      message: `Hello World! ${process.env.NODE_ENV}`,
+      message: `Hello World from ${process.env.NODE_ENV}!`,
     })
   })
 
